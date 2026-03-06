@@ -33,9 +33,10 @@ export const getModrinthMeta = async (req, res, next) => {
             name = user.username;
             url = `https://modrinth.com/user/${id}`;
         } else if (type === "project") {
-            const project = await modrinthClient.getProject(id);
-            name = project.title;
-            const urlSegment = PROJECT_TYPE_URL_SEGMENT[project.project_type] || project.project_type;
+            const project = await modrinthClient.getProjectV3(id);
+            name = project.name || project.title;
+            const projectType = project.project_types?.[0] || project.project_type;
+            const urlSegment = PROJECT_TYPE_URL_SEGMENT[projectType] || projectType;
             url = `https://modrinth.com/${urlSegment}/${id}`;
         } else if (type === "organization") {
             const org = await modrinthClient.getOrganization(id);

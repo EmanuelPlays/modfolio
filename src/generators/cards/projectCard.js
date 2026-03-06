@@ -73,8 +73,8 @@ export function generateProjectCard(data, options, platformConfig, entityType = 
 
     // Get project type icon - for CurseForge, we need special handling
     let projectTypeIconName = getEntityIcon(entityType);
-    if (platformConfig.id === "modrinth" && project.project_type) {
-        projectTypeIconName = getProjectTypeIcon(project.project_type);
+    if (platformConfig.id === "modrinth" && (project.project_types || project.project_type)) {
+        projectTypeIconName = getProjectTypeIcon(project.project_types?.[0] || project.project_type);
     } else if (platformConfig.id === "curseforge" && project.classId) {
         // CurseForge class ID to icon mapping
         const classIconMap = {
@@ -94,7 +94,7 @@ export function generateProjectCard(data, options, platformConfig, entityType = 
     }
 
     // Get title field name per platform
-    const title = project.title || project.name || "Unknown";
+    const title = project.name || project.title || "Unknown";
 
     const bottomDelay = calculateBottomDelay(latestVersions.length);
 

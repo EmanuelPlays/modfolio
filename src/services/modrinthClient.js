@@ -14,6 +14,8 @@ const MODRINTH_API_URL = process.env.MODRINTH_API_URL;
 const MODRINTH_API_V3_URL = process.env.MODRINTH_API_V3_URL;
 const USER_AGENT = process.env.USER_AGENT;
 
+const isServerProjectType = (type) => type === "minecraft_java_server" || type === "minecraft_bedrock_server";
+
 export class ModrinthClient extends BasePlatformClient
 {
     constructor()
@@ -35,9 +37,9 @@ export class ModrinthClient extends BasePlatformClient
         return this.fetch(`/user/${username}/projects`);
     }
 
-    async getProject(slug)
+    async getProjectV3(slug)
     {
-        return this.fetch(`/project/${slug}`);
+        return this.fetch(`${this.v3BaseUrl}/project/${slug}`);
     }
 
     async getProjectVersions(slug)
@@ -60,11 +62,6 @@ export class ModrinthClient extends BasePlatformClient
         return this.fetch(`${this.v3BaseUrl}/collection/${id}`);
     }
 
-    async getProjectV3(slug)
-    {
-        return this.fetch(`${this.v3BaseUrl}/project/${slug}`);
-    }
-
     async getProjects(ids)
     {
         const idsParam = JSON.stringify(ids);
@@ -80,14 +77,12 @@ export class ModrinthClient extends BasePlatformClient
             this.getUserProjects(username)
         ]);
 
-        // Return null if user not found
         if (!user) {
             return null;
         }
 
         const apiTime = performance.now() - apiStart;
 
-        // Use combined aggregation for single-pass efficiency (always fetch max for caching)
         const stats = aggregateAllStats(projects, CARD_LIMITS.MAX_COUNT);
         const topProjects = stats.topProjects;
 
@@ -121,24 +116,17 @@ export class ModrinthClient extends BasePlatformClient
     {
         const apiStart = performance.now();
 
-        const isServerType = (type) => type === "minecraft_java_server" || type === "minecraft_bedrock_server";
-
-        const [project, versions] = await Promise.all([
-            this.getProject(slug),
+        const [projectV3, versions] = await Promise.all([
+            this.getProjectV3(slug),
             this.getProjectVersions(slug)
         ]);
 
-        // Return null if project not found
-        if (!project) {
+        if (!projectV3) {
             return null;
         }
 
-        // Fetch v3 data for server projects to get ping/plays stats
-        const isServer = isServerType(project.project_type);
-        let serverData = null;
-        if (isServer) {
-            serverData = await this.getProjectV3(slug);
-        }
+        const project = projectV3;
+        const isServer = (project.project_types || []).some(isServerProjectType);
 
         const apiTime = performance.now() - apiStart;
 
@@ -155,7 +143,7 @@ export class ModrinthClient extends BasePlatformClient
 
         let stats;
         if (isServer) {
-            const javaServer = serverData?.minecraft_java_server;
+            const javaServer = projectV3.minecraft_java_server;
             stats = {
                 playersOnline: javaServer?.ping?.data?.players_online ?? null,
                 verifiedPlays2w: javaServer?.verified_plays_2w ?? null,
@@ -190,7 +178,6 @@ export class ModrinthClient extends BasePlatformClient
             this.getOrganizationProjects(id)
         ]);
 
-        // Return null if organization not found
         if (!organization) {
             return null;
         }
@@ -199,7 +186,6 @@ export class ModrinthClient extends BasePlatformClient
 
         const projects = normalizeV3ProjectFields(rawProjects);
 
-        // Use combined aggregation for single-pass efficiency (always fetch max for caching)
         const stats = aggregateAllStats(projects, CARD_LIMITS.MAX_COUNT);
         const topProjects = stats.topProjects;
 
@@ -235,7 +221,6 @@ export class ModrinthClient extends BasePlatformClient
 
         const collection = await this.getCollection(id);
 
-        // Return null if collection not found
         if (!collection) {
             return null;
         }
@@ -246,7 +231,6 @@ export class ModrinthClient extends BasePlatformClient
 
         const apiTime = performance.now() - apiStart;
 
-        // Use optimized aggregation - only basic stats needed for collections (always fetch max for caching)
         const { totalDownloads, totalFollowers, projectCount, topProjects } = aggregateProjectStats(projects, CARD_LIMITS.MAX_COUNT);
 
         let imageConversionTime = 0;
@@ -278,7 +262,6 @@ export class ModrinthClient extends BasePlatformClient
         };
     }
 
-    // Lightweight badge data fetchers - only fetch minimal stats
     async getUserBadgeStats(username)
     {
         const apiStart = performance.now();
@@ -288,7 +271,6 @@ export class ModrinthClient extends BasePlatformClient
             this.getUserProjects(username)
         ]);
 
-        // Return null if user not found
         if (!user) {
             return null;
         }
@@ -308,9 +290,8 @@ export class ModrinthClient extends BasePlatformClient
     {
         const apiStart = performance.now();
 
-        const project = await this.getProject(slug);
+        const project = await this.getProjectV3(slug);
 
-        // Return null if project not found
         if (!project) {
             return null;
         }
@@ -323,7 +304,6 @@ export class ModrinthClient extends BasePlatformClient
             versionCount: 0
         };
 
-        // Fetch versions
         try {
             const versions = await this.getProjectVersions(slug);
             stats.versionCount = versions.length;
@@ -344,7 +324,6 @@ export class ModrinthClient extends BasePlatformClient
             this.getOrganizationProjects(id)
         ]);
 
-        // Return null if organization not found
         if (!organization) {
             return null;
         }
@@ -368,7 +347,6 @@ export class ModrinthClient extends BasePlatformClient
 
         const collection = await this.getCollection(id);
 
-        // Return null if collection not found
         if (!collection) {
             return null;
         }
