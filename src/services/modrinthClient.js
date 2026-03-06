@@ -60,6 +60,11 @@ export class ModrinthClient extends BasePlatformClient
         return this.fetch(`${this.v3BaseUrl}/collection/${id}`);
     }
 
+    async getProjectV3(slug)
+    {
+        return this.fetch(`${this.v3BaseUrl}/project/${slug}`);
+    }
+
     async getProjects(ids)
     {
         const idsParam = JSON.stringify(ids);
@@ -116,6 +121,8 @@ export class ModrinthClient extends BasePlatformClient
     {
         const apiStart = performance.now();
 
+        const isServerType = (type) => type === "minecraft_java_server" || type === "minecraft_bedrock_server";
+
         const [project, versions] = await Promise.all([
             this.getProject(slug),
             this.getProjectVersions(slug)
@@ -124,6 +131,13 @@ export class ModrinthClient extends BasePlatformClient
         // Return null if project not found
         if (!project) {
             return null;
+        }
+
+        // Fetch v3 data for server projects to get ping/plays stats
+        const isServer = isServerType(project.project_type);
+        let serverData = null;
+        if (isServer) {
+            serverData = await this.getProjectV3(slug);
         }
 
         const apiTime = performance.now() - apiStart;
@@ -139,14 +153,27 @@ export class ModrinthClient extends BasePlatformClient
             .sort((a, b) => new Date(b.date_published) - new Date(a.date_published))
             .slice(0, CARD_LIMITS.MAX_COUNT);
 
-        return {
-            project,
-            versions: latestVersions,
-            stats: {
+        let stats;
+        if (isServer) {
+            const javaServer = serverData?.minecraft_java_server;
+            stats = {
+                playersOnline: javaServer?.ping?.data?.players_online ?? null,
+                verifiedPlays2w: javaServer?.verified_plays_2w ?? null,
+                downloads: project.downloads || 0
+            };
+        } else {
+            stats = {
                 downloads: project.downloads || 0,
                 followers: project.followers || 0,
                 versionCount: versions.length
-            },
+            };
+        }
+
+        return {
+            project,
+            versions: isServer ? [] : latestVersions,
+            stats,
+            entityType: isServer ? "server" : undefined,
             timings: {
                 api: apiTime,
                 imageConversion: imageConversionTime

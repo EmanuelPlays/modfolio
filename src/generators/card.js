@@ -26,6 +26,7 @@ export function generateCard(data, platformId, entityType, options = {})
 
     switch (mappedEntityType) {
     case "project":
+    case "server":
         return generateProjectCard(data, options, platformConfig, entityType);
     case "user":
         return generateUserCard(data, options, platformConfig);

@@ -33,6 +33,10 @@ const STAT_CONFIGS = {
             { label: "Downloads", field: "totalDownloads" },
             { label: "Followers", field: "totalFollowers" },
             { label: "Projects", field: "projectCount" }
+        ],
+        server: [
+            { label: "Online", field: "playersOnline" },
+            { label: "Recent Plays", field: "verifiedPlays2w" }
         ]
     },
     curseforge: {
@@ -99,7 +103,8 @@ export const PLATFORM_CONFIGS = {
                 user: "User not found",
                 organization: "Organization not found",
                 collection: "Collection not found",
-                mod: "Mod not found"
+                mod: "Mod not found",
+                server: "Server not found"
             }
         },
         statConfigs: STAT_CONFIGS.modrinth,

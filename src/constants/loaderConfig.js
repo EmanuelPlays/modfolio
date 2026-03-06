@@ -30,7 +30,9 @@ export function getProjectTypeIcon(projectType) {
         shader: "glasses",
         plugin: "plug",
         datapack: "datapack",
-        project: "box"
+        project: "box",
+        minecraft_java_server: "hard-drive",
+        minecraft_bedrock_server: "hard-drive"
     };
     return iconMap[projectType?.toLowerCase()] || "box";
 }

@@ -5,6 +5,11 @@ import { metaKey, PLATFORM } from "../utils/cacheKeys.js";
 
 const API_CACHE_TTL = 3600; // 1 hour
 
+const PROJECT_TYPE_URL_SEGMENT = {
+    minecraft_java_server: "server",
+    minecraft_bedrock_server: "server"
+};
+
 export const getModrinthMeta = async (req, res, next) => {
     try {
         const { type, id } = req.params;
@@ -30,7 +35,8 @@ export const getModrinthMeta = async (req, res, next) => {
         } else if (type === "project") {
             const project = await modrinthClient.getProject(id);
             name = project.title;
-            url = `https://modrinth.com/${project.project_type}/${id}`;
+            const urlSegment = PROJECT_TYPE_URL_SEGMENT[project.project_type] || project.project_type;
+            url = `https://modrinth.com/${urlSegment}/${id}`;
         } else if (type === "organization") {
             const org = await modrinthClient.getOrganization(id);
             name = org.name;

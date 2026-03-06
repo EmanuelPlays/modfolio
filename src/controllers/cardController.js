@@ -187,8 +187,8 @@ const handleCardRequest = async (req, res, next, cardType) => {
         // Always regenerate the output from cached data
         options.fromCache = fromCache;
 
-        // Use unified card generator for all platforms
-        const svg = generateCard(data, config.platformId, config.entityName, options);
+        // Use unified card generator for all platforms (data.entityType overrides for dynamic types like "server")
+        const svg = generateCard(data, config.platformId, data.entityType || config.entityName, options);
 
         // Generate PNG for bots or when format=png is requested
         if (renderImage) {

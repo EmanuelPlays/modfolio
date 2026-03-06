@@ -63,7 +63,7 @@ export function generateProjectCard(data, options, platformConfig, entityType = 
         let displayValue;
         if (config.field === "rank" && value != null) {
             displayValue = `#${formatNumber(value)}`;
-        } else if (config.field === "rank") {
+        } else if (value == null) {
             displayValue = "N/A";
         } else {
             displayValue = formatNumber(value);
