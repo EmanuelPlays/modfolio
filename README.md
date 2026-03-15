@@ -71,6 +71,9 @@ Rich cards showing stats, versions, projects, and activity sparklines.
 | `maxVersions` | Max versions to display (1-10) | `5` |
 | `relativeTime` | Show relative time for dates | `true` |
 | `showSparklines` | Display activity sparklines | `true` |
+| `showDownloadBars` | Display download bars | `true` |
+| `showBorder` | Show card border | `true` |
+| `animations` | Enable animations | `true` |
 
 **Platform defaults:** Modrinth `#1bd96a` | CurseForge `#F16436` | Hangar `#3371ED` | Spigot `#E8A838`
 
@@ -125,6 +128,8 @@ Compact badges showing a single metric.
 |-----------|-------------|---------|
 | `color` | Accent color (hex) | Platform default |
 | `backgroundColor` | Background color (hex) | `transparent` |
+| `showIcon` | Show the platform icon | `true` |
+| `showBorder` | Show badge border | `true` |
 | `format` | Output format (`svg` / `png`) | `svg` |
 
 #### Platform Defaults
