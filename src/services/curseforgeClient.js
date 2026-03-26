@@ -260,7 +260,7 @@ export class CurseforgeClient extends BasePlatformClient
         return this.fetch(`/v1/users/${userId}`);
     }
 
-    async getUserStats(userId, convertToPng = false)
+    async getUserStats(userId, convertToPng = false, classId = null)
     {
         // Validate userId is a number
         if (!/^\d+$/.test(String(userId))) {
@@ -293,7 +293,8 @@ export class CurseforgeClient extends BasePlatformClient
         let projects = [];
         let projectCount = 0;
         try {
-            const searchUrl = `${CURSEFORGE_API_URL}/v1/mods/search?gameId=432&authorId=${userId}&pageSize=${CARD_LIMITS.MAX_COUNT}&sortField=6&sortOrder=desc`;
+            const classFilter = classId ? `&classId=${classId}` : "";
+            const searchUrl = `${CURSEFORGE_API_URL}/v1/mods/search?gameId=432&authorId=${userId}&pageSize=${CARD_LIMITS.MAX_COUNT}&sortField=6&sortOrder=desc${classFilter}`;
             const searchResponse = await this.fetch(searchUrl);
             const searchResults = searchResponse.data || [];
 
@@ -373,9 +374,9 @@ export class CurseforgeClient extends BasePlatformClient
             date_created: user.dateCreated
         };
 
-        // Calculate total downloads from projects (if available) or use user's total
+        // When filtering by class, sum only filtered project downloads; otherwise prefer the user's total
         const projectsDownloads = projects.reduce((sum, p) => sum + (p.downloads || 0), 0);
-        const totalDownloads = user?.modsDownloadCount || projectsDownloads;
+        const totalDownloads = classId ? projectsDownloads : (user?.modsDownloadCount || projectsDownloads);
 
         const apiTime = performance.now() - apiStart;
 

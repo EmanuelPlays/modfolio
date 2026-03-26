@@ -68,11 +68,11 @@ export class ModrinthClient extends BasePlatformClient
         return this.fetch(`/projects?ids=${encodeURIComponent(idsParam)}`);
     }
 
-    async getUserStats(username, convertToPng = false)
+    async getUserStats(username, convertToPng = false, projectType = null)
     {
         const apiStart = performance.now();
 
-        const [user, projects] = await Promise.all([
+        const [user, allProjects] = await Promise.all([
             this.getUser(username),
             this.getUserProjects(username)
         ]);
@@ -82,6 +82,8 @@ export class ModrinthClient extends BasePlatformClient
         }
 
         const apiTime = performance.now() - apiStart;
+
+        const projects = projectType ? allProjects.filter(p => p.project_type === projectType) : allProjects;
 
         const stats = aggregateAllStats(projects, CARD_LIMITS.MAX_COUNT);
         const topProjects = stats.topProjects;
@@ -169,7 +171,7 @@ export class ModrinthClient extends BasePlatformClient
         };
     }
 
-    async getOrganizationStats(id, convertToPng = false)
+    async getOrganizationStats(id, convertToPng = false, projectType = null)
     {
         const apiStart = performance.now();
 
@@ -184,7 +186,8 @@ export class ModrinthClient extends BasePlatformClient
 
         const apiTime = performance.now() - apiStart;
 
-        const projects = normalizeV3ProjectFields(rawProjects);
+        const allProjects = normalizeV3ProjectFields(rawProjects);
+        const projects = projectType ? allProjects.filter(p => p.project_type === projectType) : allProjects;
 
         const stats = aggregateAllStats(projects, CARD_LIMITS.MAX_COUNT);
         const topProjects = stats.topProjects;
@@ -311,6 +314,28 @@ export class ModrinthClient extends BasePlatformClient
             stats.versionCount = 0;
         }
         apiTime = performance.now() - apiStart;
+
+        return { stats, timings: { api: apiTime } };
+    }
+
+    async getServerBadgeStats(slug)
+    {
+        const apiStart = performance.now();
+
+        const project = await this.getProjectV3(slug);
+
+        if (!project) {
+            return null;
+        }
+
+        const apiTime = performance.now() - apiStart;
+
+        const javaServer = project.minecraft_java_server;
+        const stats = {
+            followers: project.followers || 0,
+            playersOnline: javaServer?.ping?.data?.players_online ?? null,
+            verifiedPlays2w: javaServer?.verified_plays_2w ?? null,
+        };
 
         return { stats, timings: { api: apiTime } };
     }

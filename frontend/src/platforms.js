@@ -3,6 +3,15 @@ export const CARD_LIMITS = {
     MAX_COUNT: 10,
 };
 
+export const MODRINTH_PROJECT_TYPE_SEGMENTS = {
+    mods: "mod",
+    modpacks: "modpack",
+    resourcepacks: "resourcepack",
+    shaders: "shader",
+    datapacks: "datapack",
+    plugins: "plugin",
+};
+
 export const PLATFORMS = {
     modrinth: {
         id: "modrinth",
@@ -10,13 +19,23 @@ export const PLATFORMS = {
         defaultColor: "1bd96a",
         baseUrl: "modrinth.com",
         projectPath: "mod",
-        targets: ["user", "project", "organization", "collection"],
+        targets: ["user", "project", "organization", "collection", "server"],
         badgeMetrics: {
             user: ["downloads", "followers", "projects"],
             project: ["downloads", "followers", "versions"],
             organization: ["downloads", "followers", "projects"],
             collection: ["downloads", "followers", "projects"],
+            server: ["followers", "players"],
         },
+        projectTypeOptions: [
+            { value: "", label: "All Types" },
+            { value: "mod", label: "Mods" },
+            { value: "modpack", label: "Modpacks" },
+            { value: "resourcepack", label: "Resource Packs" },
+            { value: "shader", label: "Shaders" },
+            { value: "datapack", label: "Data Packs" },
+            { value: "plugin", label: "Plugins" },
+        ],
     },
     curseforge: {
         id: "curseforge",
@@ -30,6 +49,14 @@ export const PLATFORMS = {
             project: ["downloads", "rank", "versions"],
             user: ["downloads", "projects", "followers"],
         },
+        projectTypeOptions: [
+            { value: "", label: "All Types" },
+            { value: "6", label: "Mods" },
+            { value: "4471", label: "Modpacks" },
+            { value: "12", label: "Texture Packs" },
+            { value: "6552", label: "Shaders" },
+            { value: "4546", label: "Bukkit Plugins" },
+        ],
     },
     hangar: {
         id: "hangar",
@@ -68,6 +95,7 @@ export const METRIC_LABELS = {
     likes: "Likes",
     resources: "Resources",
     rating: "Rating",
+    players: "Players Online",
 };
 
 export function hslToHex(h) {
@@ -109,7 +137,8 @@ export function parseUrl(urlString) {
         if (platform.id === "curseforge") {
             if (pathParts.length < 2) return null;
             if (pathParts[0] === "members" && pathParts[1]) {
-                return { platform: platform.id, type: "user", id: pathParts[1], isCurseForge: true, needsId: true };
+                const classId = urlObj.searchParams.get("classIds") || null;
+                return { platform: platform.id, type: "user", id: pathParts[1], isCurseForge: true, needsId: true, classId };
             }
             if (pathParts.length >= 3) {
                 return { platform: platform.id, type: "project", id: pathParts[2], slug: pathParts[2], isCurseForge: true };
@@ -146,12 +175,15 @@ export function parseUrl(urlString) {
         if (pathParts.length < 2) return null;
         const typeMap = {
             project: "project", mod: "project", modpack: "project", shader: "project",
-            resourcepack: "project", datapack: "project", plugin: "project", server: "project",
+            resourcepack: "project", datapack: "project", plugin: "project",
+            server: "server",
             user: "user", organization: "organization", collection: "collection",
         };
         const mappedType = typeMap[pathParts[0]];
         if (!mappedType) return null;
-        return { platform: platform.id, type: mappedType, id: pathParts[1] };
+        // Check for optional project type filter segment: /user/name/mods or /organization/slug/resourcepacks
+        const projectType = pathParts[2] ? (MODRINTH_PROJECT_TYPE_SEGMENTS[pathParts[2]] || null) : null;
+        return { platform: platform.id, type: mappedType, id: pathParts[1], projectType };
     } catch {
         return null;
     }

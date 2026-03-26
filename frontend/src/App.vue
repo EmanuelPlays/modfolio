@@ -46,7 +46,7 @@
                         <div class="mb-2">
                             <h3 class="text-text-secondary text-base font-semibold mb-1">Target</h3>
                             <select v-model="targetType" class="w-full py-2.5 px-3 bg-input-bg border-2 border-transparent rounded-xl text-text-bright text-sm font-medium transition-[border-color] duration-100 focus:outline-none"
-                                @change="onConfigChange">
+                                @change="onTargetChange">
                                 <option v-for="t in platformConfig.targets" :key="t" :value="t">{{ capitalize(t) }}</option>
                             </select>
                         </div>
@@ -64,6 +64,14 @@
                             <input type="text" v-model="identifier" :placeholder="valuePlaceholder"
                                 class="w-full py-2.5 px-3 bg-input-bg border-2 border-transparent rounded-xl text-text-bright text-sm font-medium transition-[border-color] duration-100 focus:outline-none"
                                 @input="onIdentifierInput" @paste="onIdentifierPaste" />
+                        </div>
+
+                        <div v-if="embedType === 'card' && isUserLike && platformConfig.projectTypeOptions" class="mb-2">
+                            <h3 class="text-text-secondary text-base font-semibold mb-1">Project Type</h3>
+                            <select v-model="projectTypeFilter" class="w-full py-2.5 px-3 bg-input-bg border-2 border-transparent rounded-xl text-text-bright text-sm font-medium transition-[border-color] duration-100 focus:outline-none"
+                                @change="onOptionChange">
+                                <option v-for="opt in platformConfig.projectTypeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+                            </select>
                         </div>
                     </CollapsibleSection>
 
@@ -230,6 +238,8 @@ const animations = ref(true);
 const selectedColor = ref("1bd96a");
 const selectedBgColor = ref(null);
 
+const projectTypeFilter = ref("");
+
 const loading = ref(false);
 const generationTime = ref(null);
 const apiSlow = ref(false);
@@ -279,6 +289,7 @@ const valueLabel = computed(() => {
         collection: "Collection ID",
         author: "Author ID",
         resource: "Resource ID",
+        server: "Server Slug",
     };
     return labels[targetType.value] || "Value";
 });
@@ -291,6 +302,7 @@ const valuePlaceholder = computed(() => {
         collection: "Enter collection id",
         author: "Enter author ID",
         resource: "Enter resource ID",
+        server: "Enter server slug",
     };
     return placeholders[targetType.value] || "";
 });
@@ -329,6 +341,10 @@ const embedUrl = computed(() => {
     if (isUserLike.value) {
         if (!showSparklines.value) params.set("showSparklines", "false");
         if (!showDownloadBars.value) params.set("showDownloadBars", "false");
+        if (projectTypeFilter.value) {
+            if (platform === "curseforge") params.set("classId", projectTypeFilter.value);
+            else params.set("projectType", projectTypeFilter.value);
+        }
     }
     if (!showBorder.value) params.set("showBorder", "false");
     if (!animations.value) params.set("animations", "false");
@@ -407,6 +423,7 @@ function resetToDefaults() {
     badgeMetric.value = (config.badgeMetrics[config.targets[0]] || ["downloads"])[0];
     identifier.value = "";
     urlInput.value = "";
+    projectTypeFilter.value = "";
     showProjects.value = true;
     maxProjects.value = CARD_LIMITS.DEFAULT_COUNT;
     showVersions.value = true;
@@ -443,6 +460,11 @@ function onBgChange(color) {
 function onConfigChange() {
     updateBrowserUrl();
     generate();
+}
+
+function onTargetChange() {
+    projectTypeFilter.value = "";
+    onConfigChange();
 }
 
 function onOptionChange() {
@@ -487,6 +509,7 @@ async function onUrlInput() {
             } catch { /* ignore */ }
             curseforgeSlug.value = null;
         } else if (parsed.type === "user") {
+            projectTypeFilter.value = parsed.classId || "";
             curseforgeSlug.value = parsed.id;
             try {
                 const res = await fetch(`/curseforge/lookup/user/${encodeURIComponent(parsed.id)}`);
@@ -503,6 +526,7 @@ async function onUrlInput() {
     } else {
         curseforgeSlug.value = null;
         identifier.value = parsed.id;
+        projectTypeFilter.value = parsed.projectType || "";
     }
     updateBrowserUrl();
     generate();
@@ -623,6 +647,10 @@ function updateBrowserUrl() {
         if (!relativeTime.value) params.set("relativeTime", "false");
         if (!showSparklines.value) params.set("showSparklines", "false");
         if (!showDownloadBars.value) params.set("showDownloadBars", "false");
+        if (isUserLike.value && projectTypeFilter.value) {
+            if (selectedPlatform.value === "curseforge") params.set("classId", projectTypeFilter.value);
+            else params.set("projectType", projectTypeFilter.value);
+        }
         if (!showBorder.value) params.set("showBorder", "false");
         if (!animations.value) params.set("animations", "false");
         if (selectedColor.value !== config.defaultColor) params.set("color", selectedColor.value);
@@ -657,6 +685,8 @@ function loadFromUrl() {
     targetType.value = rawParams.get("target") || config.targets[0];
     badgeMetric.value = rawParams.get("metric") || "downloads";
     identifier.value = rawParams.get("value") || "";
+
+    projectTypeFilter.value = rawParams.get("projectType") || rawParams.get("classId") || "";
 
     showProjects.value = rawParams.get("showProjects") !== "false";
     maxProjects.value = parseInt(rawParams.get("maxProjects")) || CARD_LIMITS.DEFAULT_COUNT;

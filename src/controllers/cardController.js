@@ -18,6 +18,7 @@ const CARD_CLIENTS = {
     modrinth_project: modrinthClient,
     modrinth_organization: modrinthClient,
     modrinth_collection: modrinthClient,
+    modrinth_server: modrinthClient,
     curseforge_project: curseforgeClient,
     curseforge_user: curseforgeClient,
     hangar_project: hangarClient,
@@ -29,7 +30,7 @@ const CARD_CLIENTS = {
 const CARD_CONFIGS = {
     modrinth_user: {
         paramKey: "username",
-        dataFetcher: (client, id, convertToPng) => client.getUserStats(id, convertToPng),
+        dataFetcher: (client, id, convertToPng, options) => client.getUserStats(id, convertToPng, options?.projectType),
         cacheKeyFn: modrinthKeys.user,
         entityName: "user",
         platformId: "modrinth",
@@ -45,7 +46,7 @@ const CARD_CONFIGS = {
     },
     modrinth_organization: {
         paramKey: "id",
-        dataFetcher: (client, id, convertToPng) => client.getOrganizationStats(id, convertToPng),
+        dataFetcher: (client, id, convertToPng, options) => client.getOrganizationStats(id, convertToPng, options?.projectType),
         cacheKeyFn: modrinthKeys.organization,
         entityName: "organization",
         platformId: "modrinth",
@@ -59,6 +60,14 @@ const CARD_CONFIGS = {
         platformId: "modrinth",
         useUnified: true
     },
+    modrinth_server: {
+        paramKey: "slug",
+        dataFetcher: (client, id, convertToPng) => client.getProjectStats(id, convertToPng),
+        cacheKeyFn: modrinthKeys.project,
+        entityName: "server",
+        platformId: "modrinth",
+        useUnified: true
+    },
     curseforge_project: {
         paramKey: "projectId",
         dataFetcher: (client, id, convertToPng) => client.getModStats(id, convertToPng),
@@ -69,7 +78,7 @@ const CARD_CONFIGS = {
     },
     curseforge_user: {
         paramKey: "id",
-        dataFetcher: (client, id, convertToPng) => client.getUserStats(id, convertToPng),
+        dataFetcher: (client, id, convertToPng, options) => client.getUserStats(id, convertToPng, options?.classId),
         cacheKeyFn: curseforgeKeys.user,
         entityName: "user",
         platformId: "curseforge",
@@ -131,11 +140,14 @@ const handleCardRequest = async (req, res, next, cardType) => {
             showBorder: req.query.showBorder !== "false",
             animations: !renderImage && req.query.animations !== "false",
             color: req.query.color ? `#${req.query.color.replace(/^#/, "")}` : null,
-            backgroundColor: req.query.backgroundColor ? `#${req.query.backgroundColor.replace(/^#/, "")}` : null
+            backgroundColor: req.query.backgroundColor ? `#${req.query.backgroundColor.replace(/^#/, "")}` : null,
+            projectType: req.query.projectType || null,
+            classId: req.query.classId || null,
         };
 
-        // API data cache key - simple, independent of styling options
-        const apiCacheKey = config.cacheKeyFn(identifier);
+        // API data cache key - includes filter to avoid serving wrong cached data
+        const filterSuffix = options.projectType ? `:pt:${options.projectType}` : options.classId ? `:ci:${options.classId}` : "";
+        const apiCacheKey = config.cacheKeyFn(identifier) + filterSuffix;
 
         // Check for cached API data
         let cached = apiCache.getWithMeta(apiCacheKey);
@@ -144,7 +156,7 @@ const handleCardRequest = async (req, res, next, cardType) => {
 
         if (!data) {
             // Fetch from API with PNG images (works for both SVG and PNG output)
-            data = await config.dataFetcher(client, identifier, true);
+            data = await config.dataFetcher(client, identifier, true, options);
 
             // Handle not found (null response) without throwing
             if (!data) {
@@ -234,6 +246,7 @@ export const getUser = (req, res, next) => handleCardRequest(req, res, next, "mo
 export const getProject = (req, res, next) => handleCardRequest(req, res, next, "modrinth_project");
 export const getOrganization = (req, res, next) => handleCardRequest(req, res, next, "modrinth_organization");
 export const getCollection = (req, res, next) => handleCardRequest(req, res, next, "modrinth_collection");
+export const getServer = (req, res, next) => handleCardRequest(req, res, next, "modrinth_server");
 
 // CurseForge project card
 export const getCfMod = (req, res, next) => handleCardRequest(req, res, next, "curseforge_project");
