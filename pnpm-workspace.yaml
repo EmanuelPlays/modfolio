@@ -1,4 +1,8 @@
+packages:
+  - "frontend"
+
 onlyBuiltDependencies:
   - '@scarf/scarf'
+  - esbuild
   - protobufjs
   - sharp

@@ -20,6 +20,8 @@ const swaggerDocument = JSON.parse(fs.readFileSync(path.join(process.cwd(), "pub
 swaggerDocument.info.version = packageJson.version;
 const swaggerCss = fs.readFileSync(path.join(process.cwd(), "public", "swagger.css"), "utf8");
 
+// Serve Vue frontend build output first, then fallback to public/ for swagger assets etc.
+app.use(express.static(path.join(process.cwd(), "frontend", "dist")));
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.use(checkCrawlerMiddleware);

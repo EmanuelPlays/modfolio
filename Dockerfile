@@ -7,9 +7,12 @@ WORKDIR /app
 COPY package*.json pnpm-lock*.yaml ./
 
 RUN npm install -g pnpm
+
 RUN pnpm install --prod --frozen-lockfile
 
 COPY . .
+
+RUN cd frontend && pnpm install --frozen-lockfile && pnpm run build
 
 RUN chown -R node:node /app
 
