@@ -482,7 +482,7 @@ async function onUrlInput() {
                 const res = await fetch(`/curseforge/lookup/${encodeURIComponent(parsed.slug)}`);
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.id) { identifier.value = data.id; updateBrowserUrl(); generate(); return; }
+                    if (data.id) { identifier.value = String(data.id); updateBrowserUrl(); generate(); return; }
                 }
             } catch { /* ignore */ }
             curseforgeSlug.value = null;
@@ -492,7 +492,7 @@ async function onUrlInput() {
                 const res = await fetch(`/curseforge/lookup/user/${encodeURIComponent(parsed.id)}`);
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.id) { identifier.value = data.id; updateBrowserUrl(); generate(); return; }
+                    if (data.id) { identifier.value = String(data.id); updateBrowserUrl(); generate(); return; }
                 }
             } catch { /* ignore */ }
             curseforgeSlug.value = null;
