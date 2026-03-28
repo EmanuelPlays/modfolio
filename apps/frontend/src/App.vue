@@ -499,7 +499,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import CollapsibleSection from './components/CollapsibleSection.vue'
@@ -723,11 +723,12 @@ const metaName = ref('')
 const metaUrl = ref(null)
 const curseforgeSlug = ref(null)
 
-const copyLabels = ref({
-	markdown: t(m.actionCopyMarkdown.id),
-	html: t(m.actionCopyHtml.id),
-	url: t(m.actionCopyUrl.id),
-})
+const copiedType = ref(null)
+const copyLabels = computed(() => ({
+	markdown: copiedType.value === 'markdown' ? t(m.actionCopied.id) : t(m.actionCopyMarkdown.id),
+	html: copiedType.value === 'html' ? t(m.actionCopied.id) : t(m.actionCopyHtml.id),
+	url: copiedType.value === 'url' ? t(m.actionCopied.id) : t(m.actionCopyUrl.id),
+}))
 
 const customizationSection = ref(null)
 
@@ -1170,15 +1171,10 @@ function copy(type) {
 	const textMap = { markdown: markdownText.value, html: htmlText.value, url: urlText.value }
 	const text = textMap[type]
 	if (!text) return
-	const originals = {
-		markdown: t(m.actionCopyMarkdown.id),
-		html: t(m.actionCopyHtml.id),
-		url: t(m.actionCopyUrl.id),
-	}
 	navigator.clipboard.writeText(text).then(() => {
-		copyLabels.value = { ...copyLabels.value, [type]: t(m.actionCopied.id) }
+		copiedType.value = type
 		setTimeout(() => {
-			copyLabels.value = { ...copyLabels.value, [type]: originals[type] }
+			copiedType.value = null
 		}, 2000)
 	})
 }
@@ -1294,6 +1290,10 @@ function loadFromUrl() {
 
 	generate()
 }
+
+watch(locale, (val) => {
+	localStorage.setItem('modfolio-locale', val)
+})
 
 onMounted(() => {
 	loadFromUrl()

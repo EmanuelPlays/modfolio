@@ -8,7 +8,7 @@ import { detectBrowserLocale, i18n } from './helpers/i18n.js'
 const app = createApp(App)
 app.use(i18n)
 
-// Apply browser locale before mount
-i18n.global.locale.value = detectBrowserLocale()
+// Apply saved locale or detect from browser
+i18n.global.locale.value = localStorage.getItem('modfolio-locale') || detectBrowserLocale()
 
 app.mount('#app')
