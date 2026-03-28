@@ -8,9 +8,11 @@ on:
 
 jobs:
   test:
+    name: Test
     uses: ./.github/workflows/test.yml
 
   publish:
+    name: Build and Publish
     needs: test
     runs-on: ubuntu-latest
     permissions:
