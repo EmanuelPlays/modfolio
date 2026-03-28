@@ -2,13 +2,13 @@
   "action.copied": {
     "message": "Copied!"
   },
-  "action.copy-html": {
+  "action.copyHtml": {
     "message": "Copy HTML"
   },
-  "action.copy-markdown": {
+  "action.copyMarkdown": {
     "message": "Copy Markdown"
   },
-  "action.copy-url": {
+  "action.copyUrl": {
     "message": "Copy URL"
   },
   "action.reset": {
@@ -17,13 +17,13 @@
   "app.subtitle": {
     "message": "Generate fast, beautiful and consistent embeddable cards and badges for Modrinth, CurseForge, Hangar and Spigot content."
   },
-  "error.api-down": {
+  "error.apiDown": {
     "message": "The {platform} API is currently down."
   },
-  "field.badge-metric": {
+  "field.badgeMetric": {
     "message": "Badge Metric"
   },
-  "field.project-type": {
+  "field.projectType": {
     "message": "Project Type"
   },
   "field.target": {
@@ -35,7 +35,7 @@
   "field.url": {
     "message": "URL"
   },
-  "hint.transparent-bg": {
+  "hint.transparentBg": {
     "message": "Transparent works best in most situations, as it blends in with the background without changing its style."
   },
   "metric.downloads": {
@@ -71,55 +71,55 @@
   "metric.views": {
     "message": "Views"
   },
-  "option.accent-color": {
+  "option.accentColor": {
     "message": "Accent Color"
   },
   "option.animations": {
     "message": "Animations"
   },
-  "option.bg-color": {
+  "option.bgColor": {
     "message": "Background Color"
   },
-  "option.download-bars": {
+  "option.downloadBars": {
     "message": "Download Bars"
   },
-  "option.max-files": {
+  "option.maxFiles": {
     "message": "Max Files"
   },
-  "option.max-projects": {
+  "option.maxProjects": {
     "message": "Max Projects"
   },
-  "option.max-versions": {
+  "option.maxVersions": {
     "message": "Max Versions"
   },
-  "option.relative-time": {
+  "option.relativeTime": {
     "message": "Relative Time"
   },
-  "option.show-border": {
+  "option.showBorder": {
     "message": "Show Border"
   },
-  "option.show-files": {
+  "option.showFiles": {
     "message": "Show Files"
   },
-  "option.show-icon": {
+  "option.showIcon": {
     "message": "Show Platform Icon"
   },
-  "option.show-projects": {
+  "option.showProjects": {
     "message": "Show Projects"
   },
-  "option.show-versions": {
+  "option.showVersions": {
     "message": "Show Versions"
   },
   "option.sparklines": {
     "message": "Sparkline Graphs"
   },
-  "output.html-placeholder": {
+  "output.htmlPlaceholder": {
     "message": "Your HTML code will appear here"
   },
-  "output.markdown-placeholder": {
+  "output.markdownPlaceholder": {
     "message": "Your markdown code will appear here"
   },
-  "output.url-placeholder": {
+  "output.urlPlaceholder": {
     "message": "Your URL will appear here"
   },
   "placeholder.author": {
@@ -149,37 +149,37 @@
   "placeholder.user.default": {
     "message": "Enter username or id"
   },
-  "preview.image-alt": {
+  "preview.imageAlt": {
     "message": "Preview"
   },
   "preview.placeholder": {
     "message": "Your embed will appear here"
   },
-  "project-type.all": {
+  "projectType.all": {
     "message": "All Types"
   },
-  "project-type.bukkit-plugin": {
+  "projectType.bukkitPlugin": {
     "message": "Bukkit Plugins"
   },
-  "project-type.datapack": {
+  "projectType.datapack": {
     "message": "Data Packs"
   },
-  "project-type.mod": {
+  "projectType.mod": {
     "message": "Mods"
   },
-  "project-type.modpack": {
+  "projectType.modpack": {
     "message": "Modpacks"
   },
-  "project-type.plugin": {
+  "projectType.plugin": {
     "message": "Plugins"
   },
-  "project-type.resourcepack": {
+  "projectType.resourcepack": {
     "message": "Resource Packs"
   },
-  "project-type.shader": {
+  "projectType.shader": {
     "message": "Shaders"
   },
-  "project-type.texture-pack": {
+  "projectType.texturePack": {
     "message": "Texture Packs"
   },
   "section.configuration": {
@@ -227,40 +227,40 @@
   "type.card": {
     "message": "Card"
   },
-  "value-label.author": {
+  "valueLabel.author": {
     "message": "Author ID"
   },
-  "value-label.collection": {
+  "valueLabel.collection": {
     "message": "Collection ID"
   },
-  "value-label.default": {
+  "valueLabel.default": {
     "message": "Value"
   },
-  "value-label.organization": {
+  "valueLabel.organization": {
     "message": "Organization Slug"
   },
-  "value-label.project.curseforge": {
+  "valueLabel.project.curseforge": {
     "message": "Project ID"
   },
-  "value-label.project.default": {
+  "valueLabel.project.default": {
     "message": "Project Slug"
   },
-  "value-label.project.spigot": {
+  "valueLabel.project.spigot": {
     "message": "Project ID"
   },
-  "value-label.resource": {
+  "valueLabel.resource": {
     "message": "Resource ID"
   },
-  "value-label.server": {
+  "valueLabel.server": {
     "message": "Server Slug"
   },
-  "value-label.user.curseforge": {
+  "valueLabel.user.curseforge": {
     "message": "User ID"
   },
-  "value-label.user.default": {
+  "valueLabel.user.default": {
     "message": "Username"
   },
-  "warning.api-slow": {
+  "warning.apiSlow": {
     "message": "The {platform} API is responding slowly. Embeds may take longer to load."
   }
 }
