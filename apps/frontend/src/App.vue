@@ -474,7 +474,14 @@
 				style="color: #fbbf24"
 				>&starf; On Github</a
 			>
-			&middot; Not affiliated with Modrinth, CurseForge, Hangar or Spigot
+			&middot;
+				<a
+					href="https://crowdin.com/project/modfolio"
+					target="_blank"
+					class="dynamic-link no-underline"
+					>Help Translate</a
+				>
+				&middot; Not affiliated with Modrinth, CurseForge, Hangar or Spigot
 		</footer>
 	</div>
 </template>

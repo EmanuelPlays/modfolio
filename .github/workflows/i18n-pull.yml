@@ -1,27 +1,48 @@
-name: i18n Pull
+name: Crowdin (pull)
 
 on:
   schedule:
-    - cron: '0 7 * * 1'  # Every Monday at 07:00 UTC
+    - cron: '0 7 * * MON' # every monday at 7 am
   workflow_dispatch:
 
+concurrency:
+  group: i18n-management
+
 jobs:
-  pull:
+  pull_translations:
+    name: 'Pull translations from Crowdin'
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    concurrency:
+      group: i18n-pull:${{ github.ref }}
+      cancel-in-progress: true
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
 
       - name: Download translations from Crowdin
         uses: crowdin/github-action@v2
         with:
           config: apps/frontend/crowdin.yml
-          download_translations: true
           upload_sources: false
-          create_pull_request: true
-          pull_request_title: 'chore: update translations'
-          pull_request_body: 'New translations from Crowdin.'
-          pull_request_base_branch_name: main
+          upload_translations: false
+          download_translations: true
+          push_translations: false
+          create_pull_request: false
+          crowdin_branch_name: '[${{ github.repository_owner }}.${{ github.event.repository.name }}] main'
         env:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fix broken permissions
+        shell: bash
+        run: sudo chown -R $USER:$USER .
+
+      - name: Commit translations
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'New translations from Crowdin'
