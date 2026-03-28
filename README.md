@@ -174,6 +174,12 @@ Translations are managed on [Crowdin](https://crowdin.com/project/modfolio). You
 
 New translations are automatically pulled every Monday.
 
+### Contributors ❤️
+
+| Language | Translators |
+|----------|------------|
+| Italian | emanuelplaysofficial |
+
 ## 🤝 Contributing
 
 Contributions are always welcome!
