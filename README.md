@@ -184,6 +184,9 @@ New translations are automatically pulled every Monday.
 |----------|------------|
 | Italian | emanuelplaysofficial |
 
+## PS:
+This fork only has better UI
+
 ## 🤝 Contributing
 
 Contributions are always welcome!
