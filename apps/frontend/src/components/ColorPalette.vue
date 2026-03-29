@@ -6,8 +6,8 @@
 				<button
 					v-for="color in presetColors"
 					:key="String(color.value)"
-					class="color-btn"
-					:class="{ 'color-btn-selected': modelValue === color.value }"
+					class="color-btn glass-effect hover:glass-effect neon-border button-shimmer hover:glow-pulse shadow-md hover:shadow-lg hover:scale-110"
+					:class="{ 'ring-4 ring-white/30 shadow-2xl': modelValue === color.value }"
 					:style="colorButtonStyle(color)"
 					:title="color.name"
 					@click="$emit('update:modelValue', color.value)"
@@ -15,8 +15,8 @@
 			</div>
 
 			<div
-				class="color-btn relative flex items-center justify-center overflow-hidden border-2 border-border-dark"
-				:class="{ 'color-btn-selected': isCustom }"
+				class="color-btn relative flex items-center justify-center overflow-hidden border-2 border-border-dark glass-effect hover:glass-effect neon-border button-shimmer hover:scale-110 hover:shadow-xl"
+				:class="{ 'ring-4 ring-white/50 shadow-2xl': isCustom }"
 				:style="{ background: customPickerBg }"
 			>
 				<input

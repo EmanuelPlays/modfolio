@@ -30,6 +30,16 @@ app.use(express.static(publicDir));
 
 app.use(checkCrawlerMiddleware);
 
+// Platform validation middleware
+app.use((req, res, next) => {
+    const platform = req.params.platform || req.path.split('/')[1];
+    if (platform && !['modrinth', 'curseforge', 'hangar', 'spigot'].includes(platform)) {
+        logger.warn(`Invalid platform requested: ${platform} for path ${req.path}`);
+        return res.status(404).json({ error: `Invalid platform: ${platform}` });
+    }
+    next();
+});
+
 app.use(modrinthRoutes);
 app.use(curseforgeRoutes);
 app.use(hangarRoutes);

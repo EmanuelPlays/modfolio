@@ -1,9 +1,9 @@
 <template>
-	<div
-		class="min-h-screen flex flex-col justify-center items-center pt-10 px-5 pb-0 font-medium text-text-primary overflow-y-auto"
-	>
+<div
+			class="min-h-screen flex flex-col justify-center items-center pt-10 px-5 pb-0 font-medium text-text-primary overflow-y-auto animate-fadeIn"
+		>
 		<div
-			class="bg-card-bg border border-border-dark rounded-2xl p-4 lg:p-8 max-w-[1200px] w-full shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
+			class="glass-effect neon-border rounded-2xl p-4 lg:p-8 max-w-[1200px] w-full glow-pulse stagger-2"
 		>
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
 				<!-- Left column: Configuration -->
@@ -339,7 +339,7 @@
 						</div>
 
 						<div
-							class="bg-section-bg border border-border-dark rounded-xl min-h-[460px] flex items-center justify-center text-text-muted p-4"
+							class="section-glass rounded-xl min-h-[460px] flex items-center justify-center text-text-muted p-4"
 						>
 							<span v-if="!previewSrc">{{ t(m.previewPlaceholder.id) }}</span>
 							<a v-else :href="targetUrl" target="_blank">
@@ -350,30 +350,30 @@
 
 					<div>
 						<h2 class="text-text-secondary text-lg font-semibold">{{ t(m.sectionMarkdown.id) }}</h2>
-						<div
-							class="bg-section-bg border border-border-dark rounded-xl p-3 flex items-center font-mono text-xs break-all"
-							:class="markdownText ? 'text-text-bright' : 'text-text-muted'"
-						>
+							<div
+								class="section-glass rounded-xl p-3 flex items-center font-mono text-xs break-all"
+								:class="markdownText ? 'text-text-bright' : 'text-text-muted'"
+							>
 							{{ markdownText || t(m.outputMarkdownPlaceholder.id) }}
 						</div>
 					</div>
 
 					<div>
 						<h2 class="text-text-secondary text-lg font-semibold">{{ t(m.sectionHtml.id) }}</h2>
-						<div
-							class="bg-section-bg border border-border-dark rounded-xl p-3 flex items-center font-mono text-xs break-all"
-							:class="htmlText ? 'text-text-bright' : 'text-text-muted'"
-						>
+							<div
+								class="section-glass rounded-xl p-3 flex items-center font-mono text-xs break-all"
+								:class="htmlText ? 'text-text-bright' : 'text-text-muted'"
+							>
 							{{ htmlText || t(m.outputHtmlPlaceholder.id) }}
 						</div>
 					</div>
 
 					<div>
 						<h2 class="text-text-secondary text-lg font-semibold">{{ t(m.sectionUrl.id) }}</h2>
-						<div
-							class="bg-section-bg border border-border-dark rounded-xl p-3 flex items-center font-mono text-xs break-all"
-							:class="urlText ? 'text-text-bright' : 'text-text-muted'"
-						>
+							<div
+								class="section-glass rounded-xl p-3 flex items-center font-mono text-xs break-all"
+								:class="urlText ? 'text-text-bright' : 'text-text-muted'"
+							>
 							{{ urlText || t(m.outputUrlPlaceholder.id) }}
 						</div>
 					</div>
@@ -827,7 +827,7 @@ const valuePlaceholder = computed(() => {
 // Build the embed URL
 const embedUrl = computed(() => {
 	const id = identifier.value.trim()
-	if (!id) return null
+	if (!id || !platformConfig.value) return null
 
 	const config = platformConfig.value
 	const platform = selectedPlatform.value
