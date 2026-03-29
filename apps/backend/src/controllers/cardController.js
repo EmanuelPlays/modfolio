@@ -18,7 +18,6 @@ const CARD_CLIENTS = {
     modrinth_project: modrinthClient,
     modrinth_organization: modrinthClient,
     modrinth_collection: modrinthClient,
-    modrinth_server: modrinthClient,
     curseforge_project: curseforgeClient,
     curseforge_user: curseforgeClient,
     hangar_project: hangarClient,
@@ -60,14 +59,6 @@ const CARD_CONFIGS = {
         platformId: "modrinth",
         useUnified: true
     },
-    modrinth_server: {
-        paramKey: "slug",
-        dataFetcher: (client, id, convertToPng) => client.getProjectStats(id, convertToPng),
-        cacheKeyFn: modrinthKeys.project,
-        entityName: "server",
-        platformId: "modrinth",
-        useUnified: true
-    },
     curseforge_project: {
         paramKey: "projectId",
         dataFetcher: (client, id, convertToPng) => client.getModStats(id, convertToPng),
@@ -78,7 +69,7 @@ const CARD_CONFIGS = {
     },
     curseforge_user: {
         paramKey: "id",
-        dataFetcher: (client, id, convertToPng, options) => client.getUserStats(id, convertToPng, options?.classId),
+        dataFetcher: (client, id, convertToPng, options) => client.getUserStats(id, convertToPng, options?.projectType),
         cacheKeyFn: curseforgeKeys.user,
         entityName: "user",
         platformId: "curseforge",
@@ -137,16 +128,16 @@ const handleCardRequest = async (req, res, next, cardType) => {
             relativeTime: req.query.relativeTime !== "false",
             showSparklines: req.query.showSparklines !== "false",
             showDownloadBars: req.query.showDownloadBars !== "false",
+            showSummary: req.query.showSummary === "true",
             showBorder: req.query.showBorder !== "false",
             animations: !renderImage && req.query.animations !== "false",
             color: req.query.color ? `#${req.query.color.replace(/^#/, "")}` : null,
             backgroundColor: req.query.backgroundColor ? `#${req.query.backgroundColor.replace(/^#/, "")}` : null,
             projectType: req.query.projectType || null,
-            classId: req.query.classId || null,
         };
 
         // API data cache key - includes filter to avoid serving wrong cached data
-        const filterSuffix = options.projectType ? `:pt:${options.projectType}` : options.classId ? `:ci:${options.classId}` : "";
+        const filterSuffix = options.projectType ? `:pt:${options.projectType}` : "";
         const apiCacheKey = config.cacheKeyFn(identifier) + filterSuffix;
 
         // Check for cached API data
@@ -199,7 +190,7 @@ const handleCardRequest = async (req, res, next, cardType) => {
         // Always regenerate the output from cached data
         options.fromCache = fromCache;
 
-        // Use unified card generator for all platforms (data.entityType overrides for dynamic types like "server")
+        // Use unified card generator for all platforms
         const svg = generateCard(data, config.platformId, data.entityType || config.entityName, options);
 
         // Generate PNG for bots or when format=png is requested
@@ -246,7 +237,6 @@ export const getUser = (req, res, next) => handleCardRequest(req, res, next, "mo
 export const getProject = (req, res, next) => handleCardRequest(req, res, next, "modrinth_project");
 export const getOrganization = (req, res, next) => handleCardRequest(req, res, next, "modrinth_organization");
 export const getCollection = (req, res, next) => handleCardRequest(req, res, next, "modrinth_collection");
-export const getServer = (req, res, next) => handleCardRequest(req, res, next, "modrinth_server");
 
 // CurseForge project card
 export const getCfMod = (req, res, next) => handleCardRequest(req, res, next, "curseforge_project");

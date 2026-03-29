@@ -45,7 +45,10 @@
           { "$ref": "#/components/parameters/MaxVersions" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -62,6 +65,8 @@
           { "$ref": "#/components/parameters/Slug" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -78,6 +83,8 @@
           { "$ref": "#/components/parameters/Slug" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -94,6 +101,8 @@
           { "$ref": "#/components/parameters/Slug" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -115,7 +124,11 @@
           { "$ref": "#/components/parameters/MaxProjects" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
+          { "$ref": "#/components/parameters/ProjectType" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -132,6 +145,8 @@
           { "$ref": "#/components/parameters/Username" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -148,6 +163,8 @@
           { "$ref": "#/components/parameters/Username" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -164,6 +181,8 @@
           { "$ref": "#/components/parameters/Username" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -185,7 +204,11 @@
           { "$ref": "#/components/parameters/MaxProjects" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
+          { "$ref": "#/components/parameters/ProjectType" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -202,6 +225,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -218,6 +243,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -234,6 +261,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -255,7 +284,10 @@
           { "$ref": "#/components/parameters/MaxProjects" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -272,6 +304,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -288,6 +322,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -304,6 +340,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -348,7 +386,10 @@
           { "$ref": "#/components/parameters/MaxVersions" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -365,6 +406,8 @@
           { "$ref": "#/components/parameters/ProjectId" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -381,6 +424,8 @@
           { "$ref": "#/components/parameters/ProjectId" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -397,6 +442,8 @@
           { "$ref": "#/components/parameters/ProjectId" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -453,7 +500,11 @@
           { "$ref": "#/components/parameters/MaxProjects" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
+          { "$ref": "#/components/parameters/ProjectType" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -470,6 +521,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -486,6 +539,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -502,6 +557,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -558,7 +615,10 @@
           { "$ref": "#/components/parameters/MaxVersions" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -575,6 +635,8 @@
           { "$ref": "#/components/parameters/Slug" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -591,6 +653,8 @@
           { "$ref": "#/components/parameters/Slug" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -607,6 +671,8 @@
           { "$ref": "#/components/parameters/Slug" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -628,7 +694,10 @@
           { "$ref": "#/components/parameters/MaxProjects" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -645,6 +714,8 @@
           { "$ref": "#/components/parameters/Username" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -661,6 +732,8 @@
           { "$ref": "#/components/parameters/Username" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -677,6 +750,8 @@
           { "$ref": "#/components/parameters/Username" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -714,7 +789,10 @@
           { "$ref": "#/components/parameters/MaxVersions" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -731,6 +809,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -747,6 +827,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -763,6 +845,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -779,6 +863,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -800,7 +886,10 @@
           { "$ref": "#/components/parameters/MaxProjects" },
           { "$ref": "#/components/parameters/RelativeTime" },
           { "$ref": "#/components/parameters/ShowSparklines" },
+          { "$ref": "#/components/parameters/ShowDownloadBars" },
+          { "$ref": "#/components/parameters/ShowSummary" },
           { "$ref": "#/components/parameters/ShowBorder" },
+          { "$ref": "#/components/parameters/Animations" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -817,6 +906,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -833,6 +924,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -849,6 +942,8 @@
           { "$ref": "#/components/parameters/Id" },
           { "$ref": "#/components/parameters/Color" },
           { "$ref": "#/components/parameters/BackgroundColor" },
+          { "$ref": "#/components/parameters/ShowIcon" },
+          { "$ref": "#/components/parameters/ShowBorder" },
           { "$ref": "#/components/parameters/Format" }
         ],
         "responses": {
@@ -958,7 +1053,37 @@
         "name": "showBorder",
         "in": "query",
         "schema": { "type": "boolean", "default": true },
-        "description": "Show outer border on the card"
+        "description": "Show outer border on the card or badge"
+      },
+      "ShowDownloadBars": {
+        "name": "showDownloadBars",
+        "in": "query",
+        "schema": { "type": "boolean", "default": true },
+        "description": "Display download bars on the card"
+      },
+      "ShowSummary": {
+        "name": "showSummary",
+        "in": "query",
+        "schema": { "type": "boolean", "default": false },
+        "description": "Show description/bio text on the card"
+      },
+      "Animations": {
+        "name": "animations",
+        "in": "query",
+        "schema": { "type": "boolean", "default": true },
+        "description": "Enable animations (disabled when format is png)"
+      },
+      "ShowIcon": {
+        "name": "showIcon",
+        "in": "query",
+        "schema": { "type": "boolean", "default": true },
+        "description": "Show the platform icon on the badge"
+      },
+      "ProjectType": {
+        "name": "projectType",
+        "in": "query",
+        "schema": { "type": "string" },
+        "description": "Filter projects by type (Modrinth: mod, plugin, datapack, etc. CurseForge: class ID)"
       },
       "Format": {
         "name": "format",

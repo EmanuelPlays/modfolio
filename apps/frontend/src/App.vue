@@ -183,6 +183,12 @@
 							@update:model-value="onOptionChange"
 						/>
 						<ToggleCheckbox
+							v-if="embedType === 'card'"
+							v-model="showSummary"
+							:label="t(m.optionShowSummary.id)"
+							@update:model-value="onOptionChange"
+						/>
+						<ToggleCheckbox
 							v-if="embedType === 'badge'"
 							v-model="showIcon"
 							:label="t(m.optionShowIcon.id)"
@@ -554,6 +560,7 @@ const m = defineMessages({
 	optionSparklines: { id: 'option.sparklines', defaultMessage: 'Sparkline Graphs' },
 	optionDownloadBars: { id: 'option.downloadBars', defaultMessage: 'Download Bars' },
 	optionShowIcon: { id: 'option.showIcon', defaultMessage: 'Show Platform Icon' },
+	optionShowSummary: { id: 'option.showSummary', defaultMessage: 'Show Summary' },
 	optionShowBorder: { id: 'option.showBorder', defaultMessage: 'Show Border' },
 	optionAnimations: { id: 'option.animations', defaultMessage: 'Animations' },
 	optionAccentColor: { id: 'option.accentColor', defaultMessage: 'Accent Color' },
@@ -704,6 +711,7 @@ const maxProjects = ref(CARD_LIMITS.DEFAULT_COUNT)
 const showVersions = ref(true)
 const maxVersions = ref(CARD_LIMITS.DEFAULT_COUNT)
 const relativeTime = ref(true)
+const showSummary = ref(false)
 const showSparklines = ref(true)
 const showDownloadBars = ref(true)
 const showIcon = ref(true)
@@ -787,8 +795,6 @@ const valueLabel = computed(() => {
 			return t(m.valueLabelAuthor.id)
 		case 'resource':
 			return t(m.valueLabelResource.id)
-		case 'server':
-			return t(m.valueLabelServer.id)
 		default:
 			return t(m.valueLabelDefault.id)
 	}
@@ -813,8 +819,6 @@ const valuePlaceholder = computed(() => {
 			return t(m.placeholderAuthor.id)
 		case 'resource':
 			return t(m.placeholderResource.id)
-		case 'server':
-			return t(m.placeholderServer.id)
 		default:
 			return ''
 	}
@@ -857,10 +861,10 @@ const embedUrl = computed(() => {
 		if (!showSparklines.value) params.set('showSparklines', 'false')
 		if (!showDownloadBars.value) params.set('showDownloadBars', 'false')
 		if (projectTypeFilter.value) {
-			if (platform === 'curseforge') params.set('classId', projectTypeFilter.value)
-			else params.set('projectType', projectTypeFilter.value)
+			params.set('projectType', projectTypeFilter.value)
 		}
 	}
+	if (showSummary.value) params.set('showSummary', 'true')
 	if (!showBorder.value) params.set('showBorder', 'false')
 	if (!animations.value) params.set('animations', 'false')
 	if (selectedColor.value !== config.defaultColor) params.set('color', selectedColor.value)
@@ -945,6 +949,7 @@ function resetToDefaults() {
 	showVersions.value = true
 	maxVersions.value = CARD_LIMITS.DEFAULT_COUNT
 	relativeTime.value = true
+	showSummary.value = false
 	showSparklines.value = true
 	showDownloadBars.value = true
 	showIcon.value = true
@@ -1044,7 +1049,7 @@ async function onUrlInput() {
 			}
 			curseforgeSlug.value = null
 		} else if (parsed.type === 'user') {
-			projectTypeFilter.value = parsed.classId || ''
+			projectTypeFilter.value = parsed.projectType || ''
 			curseforgeSlug.value = parsed.id
 			try {
 				const res = await fetch(`/curseforge/lookup/user/${encodeURIComponent(parsed.id)}`)
@@ -1209,9 +1214,9 @@ function updateBrowserUrl() {
 		if (!showSparklines.value) params.set('showSparklines', 'false')
 		if (!showDownloadBars.value) params.set('showDownloadBars', 'false')
 		if (isUserLike.value && projectTypeFilter.value) {
-			if (selectedPlatform.value === 'curseforge') params.set('classId', projectTypeFilter.value)
-			else params.set('projectType', projectTypeFilter.value)
+			params.set('projectType', projectTypeFilter.value)
 		}
+		if (showSummary.value) params.set('showSummary', 'true')
 		if (!showBorder.value) params.set('showBorder', 'false')
 		if (!animations.value) params.set('animations', 'false')
 		if (selectedColor.value !== config.defaultColor) params.set('color', selectedColor.value)
@@ -1249,13 +1254,14 @@ function loadFromUrl() {
 	badgeMetric.value = rawParams.get('metric') || 'downloads'
 	identifier.value = rawParams.get('value') || ''
 
-	projectTypeFilter.value = rawParams.get('projectType') || rawParams.get('classId') || ''
+	projectTypeFilter.value = rawParams.get('projectType') || ''
 
 	showProjects.value = rawParams.get('showProjects') !== 'false'
 	maxProjects.value = parseInt(rawParams.get('maxProjects')) || CARD_LIMITS.DEFAULT_COUNT
 	showVersions.value = rawParams.get('showVersions') !== 'false'
 	maxVersions.value = parseInt(rawParams.get('maxVersions')) || CARD_LIMITS.DEFAULT_COUNT
 	relativeTime.value = rawParams.get('relativeTime') !== 'false'
+	showSummary.value = rawParams.get('showSummary') === 'true'
 	showSparklines.value = rawParams.get('showSparklines') !== 'false'
 	showDownloadBars.value = rawParams.get('showDownloadBars') !== 'false'
 	showIcon.value = rawParams.get('showIcon') !== 'false'
@@ -1276,6 +1282,7 @@ function loadFromUrl() {
 		!showVersions.value ||
 		maxVersions.value !== CARD_LIMITS.DEFAULT_COUNT ||
 		!relativeTime.value ||
+		showSummary.value ||
 		!showSparklines.value ||
 		!showDownloadBars.value ||
 		!showIcon.value ||

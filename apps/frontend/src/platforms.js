@@ -19,13 +19,12 @@ export const PLATFORMS = {
 		defaultColor: '1bd96a',
 		baseUrl: 'modrinth.com',
 		projectPath: 'mod',
-		targets: ['user', 'project', 'organization', 'collection', 'server'],
+		targets: ['user', 'project', 'organization', 'collection'],
 		badgeMetrics: {
 			user: ['downloads', 'followers', 'projects'],
 			project: ['downloads', 'followers', 'versions'],
 			organization: ['downloads', 'followers', 'projects'],
 			collection: ['downloads', 'followers', 'projects'],
-			server: ['followers', 'players'],
 		},
 		projectTypeOptions: [
 			{ value: '', label: 'All Types' },
@@ -163,14 +162,14 @@ export function parseUrl(urlString) {
 		if (platform.id === 'curseforge') {
 			if (pathParts.length < 2) return null
 			if (pathParts[0] === 'members' && pathParts[1]) {
-				const classId = urlObj.searchParams.get('classIds') || null
+				const projectType = urlObj.searchParams.get('classIds') || null
 				return {
 					platform: platform.id,
 					type: 'user',
 					id: pathParts[1],
 					isCurseForge: true,
 					needsId: true,
-					classId,
+					projectType,
 				}
 			}
 			if (pathParts.length >= 3) {
@@ -222,7 +221,7 @@ export function parseUrl(urlString) {
 			resourcepack: 'project',
 			datapack: 'project',
 			plugin: 'project',
-			server: 'server',
+			server: 'project',
 			user: 'user',
 			organization: 'organization',
 			collection: 'collection',

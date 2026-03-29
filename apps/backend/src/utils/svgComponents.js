@@ -260,9 +260,9 @@ export function generateStatsGrid(stats, colors, animations = true)
     }).join("");
 }
 
-export function generateProjectListItem(project, index, totalDownloads, colors, showSparklines = true, showDownloadBars = true, animations = true, baseDelay = 0)
+export function generateProjectListItem(project, index, totalDownloads, colors, showSparklines = true, showDownloadBars = true, animations = true, baseDelay = 0, yOffset = 0)
 {
-    const yPos = 160 + (index * 50);
+    const yPos = 160 + (index * 50) + yOffset;
     const projectName = escapeXml(truncateText(project.title, 18));
     const downloads = formatNumber(project.downloads);
     const followers = formatNumber(project.followers || 0);
@@ -367,14 +367,57 @@ ${showDownloadBars ? `    <!-- Relative downloads bar -->
   </g>`;
 }
 
-export function generateDivider(colors, animations = true)
+export function generateDivider(colors, animations = true, y = 110)
 {
     return `
   <!-- Divider -->
-  <line x1="15" y1="110" x2="435" y2="110" stroke="${colors.borderColor}" stroke-width="1" vector-effect="non-scaling-stroke"${animations ? ' class="divider"' : ""}/>`;
+  <line x1="15" y1="${y}" x2="435" y2="${y}" stroke="${colors.borderColor}" stroke-width="1" vector-effect="non-scaling-stroke"${animations ? ' class="divider"' : ""}/>`;
 }
 
-export function generateProjectList(topProjects, sectionTitle, colors, showSparklines = true, showDownloadBars = true, animations = true)
+export function wrapText(text, maxChars)
+{
+    const words = text.split(/\s+/);
+    const lines = [];
+    let currentLine = "";
+
+    for (const word of words) {
+        const testLine = currentLine ? `${currentLine} ${word}` : word;
+        if (testLine.length > maxChars && currentLine) {
+            lines.push(currentLine);
+            currentLine = word;
+        } else {
+            currentLine = testLine;
+        }
+    }
+    if (currentLine) lines.push(currentLine);
+    return lines;
+}
+
+export function generateSummary(text, colors, animations = true)
+{
+    if (!text) return { svg: "", height: 0 };
+
+    const lines = wrapText(escapeXml(truncateText(text, 220)), 60);
+    const lineHeight = 16;
+    const topPadding = 8;
+    const bottomPadding = 10;
+    const height = topPadding + (lines.length * lineHeight) + bottomPadding;
+
+    const textElements = lines.map((line, i) => {
+        const y = 110 + topPadding + (i + 1) * lineHeight;
+        return `    <text x="15" y="${y}" font-family="Inter, sans-serif" font-size="12" fill="${colors.textColor}" opacity="0.8">${line}</text>`;
+    }).join("\n");
+
+    const svg = `
+  <!-- Summary -->
+  <g${animations ? ' class="fade-in-delayed" style="animation-delay: 0.1s"' : ""}>
+${textElements}
+  </g>`;
+
+    return { svg, height };
+}
+
+export function generateProjectList(topProjects, sectionTitle, colors, showSparklines = true, showDownloadBars = true, animations = true, yOffset = 0)
 {
     if (!topProjects || topProjects.length === 0) return "";
 
@@ -383,21 +426,21 @@ export function generateProjectList(topProjects, sectionTitle, colors, showSpark
     const firstProjectDelay = sectionDelay + 0.1;
 
     const projectsHtml = topProjects.map((project, index) =>
-        generateProjectListItem(project, index, totalDownloads, colors, showSparklines, showDownloadBars, animations, firstProjectDelay)
+        generateProjectListItem(project, index, totalDownloads, colors, showSparklines, showDownloadBars, animations, firstProjectDelay, yOffset)
     ).join("");
 
     return `
   <!-- Projects Header -->
-  <text x="15" y="130" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="${colors.textColor}"${animations ? ` class="section-header" style="animation-delay: ${sectionDelay}s"` : ""}>
+  <text x="15" y="${130 + yOffset}" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="${colors.textColor}"${animations ? ` class="section-header" style="animation-delay: ${sectionDelay}s"` : ""}>
     ${sectionTitle}
   </text>
 
   ${projectsHtml}`;
 }
 
-export function generateVersionListItem(version, index, colors, relativeTime, animations = true)
+export function generateVersionListItem(version, index, colors, relativeTime, animations = true, yOffset = 0)
 {
-    const yPos = 160 + (index * 50);
+    const yPos = 160 + (index * 50) + yOffset;
     const versionNumber = escapeXml(truncateText(version.version_number, 18));
 
     const publishedDate = new Date(version.date_published);
@@ -469,17 +512,17 @@ export function generateVersionListItem(version, index, colors, relativeTime, an
   </g>`;
 }
 
-export function generateVersionList(versions, colors, relativeTime, headerText = "Latest Versions", animations = true)
+export function generateVersionList(versions, colors, relativeTime, headerText = "Latest Versions", animations = true, yOffset = 0)
 {
     if (!versions || versions.length === 0) return "";
 
     const versionsHtml = versions.map((version, index) =>
-        generateVersionListItem(version, index, colors, relativeTime, animations)
+        generateVersionListItem(version, index, colors, relativeTime, animations, yOffset)
     ).join("");
 
     return `
   <!-- Versions Header -->
-  <text x="15" y="130" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="${colors.textColor}"${animations ? ' class="section-header" style="animation-delay: 0.2s"' : ""}>
+  <text x="15" y="${130 + yOffset}" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="${colors.textColor}"${animations ? ' class="section-header" style="animation-delay: 0.2s"' : ""}>
     ${escapeXml(headerText)}
   </text>
 

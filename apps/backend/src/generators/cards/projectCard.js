@@ -9,6 +9,7 @@ import {
     generateRectImage,
     generateStatsGrid,
     generateDivider,
+    generateSummary,
     generateVersionList,
     generateInfo,
     generateAttribution,
@@ -22,6 +23,7 @@ export function generateProjectCard(data, options, platformConfig, entityType = 
         showVersions = true,
         maxVersions = CARD_LIMITS.DEFAULT_COUNT,
         showSparklines = true,
+        showSummary = false,
         color = null,
         backgroundColor = null,
         fromCache = false,
@@ -45,7 +47,13 @@ export function generateProjectCard(data, options, platformConfig, entityType = 
         game_versions: v.game_versions || v.gameVersions || []
     })) : [];
     const hasVersions = showVersions && latestVersions.length > 0;
-    const height = hasVersions ? 150 + (latestVersions.length * 50) : 130;
+
+    // Calculate summary
+    const summaryText = project.summary;
+    const { svg: summarySvg, height: summaryHeight } = generateSummary(summaryText, colors, animations);
+    const summaryOffset = showSummary && summaryHeight > 0 ? summaryHeight : 0;
+
+    const height = hasVersions ? 150 + (latestVersions.length * 50) + summaryOffset : (summaryOffset > 0 ? 130 + summaryOffset : 130);
 
     const versionDates = versions.map(v => v[platformConfig.terminology.versionField]);
 
@@ -114,7 +122,8 @@ ${generateRectImage(
     )}
 ${generateStatsGrid(statsData, colors, animations)}
 ${generateDivider(colors, animations)}
-${generateVersionList(latestVersions, colors, relativeTime, platformConfig.labels.sections.latestVersions, animations)}
+${showSummary ? summarySvg : ""}
+${generateVersionList(latestVersions, colors, relativeTime, platformConfig.labels.sections.latestVersions, animations, summaryOffset)}
 ${generateInfo(height, colors, fromCache, animations, bottomDelay)}
 ${generateAttribution(height, colors, animations, bottomDelay)}
 `;

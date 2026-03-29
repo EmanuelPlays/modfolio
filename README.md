@@ -75,7 +75,10 @@ Rich cards showing stats, versions, projects, and activity sparklines.
 | `showSparklines` | Display activity sparklines | `true` |
 | `showDownloadBars` | Display download bars | `true` |
 | `showBorder` | Show card border | `true` |
+| `showSummary` | Show description/bio text | `false` |
 | `animations` | Enable animations | `true` |
+| `format` | Output format (`svg` / `png`) | `svg` |
+| `projectType` | Filter projects by type (Modrinth: `mod`, `plugin`, `datapack`, etc. CurseForge: class ID) | `null` |
 
 **Platform defaults:** Modrinth `#1bd96a` | CurseForge `#F16436` | Hangar `#3371ED` | Spigot `#E8A838`
 
@@ -109,10 +112,10 @@ Compact badges showing a single metric.
 | Badge | Path | Example |
 |-------|------|---------|
 | Downloads | `/hangar/<type>/<id>/downloads` | [![SimpleVoiceChat](https://modfolio.creeperkatze.de/hangar/project/SimpleVoiceChat/downloads)](https://hangar.papermc.io/henkelmax/SimpleVoiceChat) |
-| Stars | `/hangar/project/<id>/stars` | [![henkelmax](https://modfolio.creeperkatze.de/hangar/user/henkelmax/stars)](https://hangar.papermc.io/henkelmax) |
 | Versions | `/hangar/project/<id>/versions` | [![SimpleVoiceChat](https://modfolio.creeperkatze.de/hangar/project/SimpleVoiceChat/versions)](https://hangar.papermc.io/henkelmax/SimpleVoiceChat) |
 | Views | `/hangar/project/<id>/views` | [![SimpleVoiceChat](https://modfolio.creeperkatze.de/hangar/project/SimpleVoiceChat/views)](https://hangar.papermc.io/henkelmax/SimpleVoiceChat) |
-| Projects | `/hangar/user/<id>/projects` | [![henkelmax](https://modfolio.creeperkatze.de/hangar/user/henkelmax/downloads)](https://hangar.papermc.io/henkelmax) |
+| Stars | `/hangar/user/<username>/stars` | [![henkelmax](https://modfolio.creeperkatze.de/hangar/user/henkelmax/stars)](https://hangar.papermc.io/henkelmax) |
+| Projects | `/hangar/user/<username>/projects` | [![henkelmax](https://modfolio.creeperkatze.de/hangar/user/henkelmax/projects)](https://hangar.papermc.io/henkelmax) |
 
 #### Spigot
 
@@ -123,6 +126,7 @@ Compact badges showing a single metric.
 | Rating | `/spigot/<type>/<id>/rating` | [![LuckPerms](https://modfolio.creeperkatze.de/spigot/resource/28140/rating)](https://spigotmc.org/resources/28140/) |
 | Versions | `/spigot/project/<id>/versions` | [![LuckPerms](https://modfolio.creeperkatze.de/spigot/resource/28140/versions)](https://spigotmc.org/resources/28140/) |
 | Resources | `/spigot/author/<id>/resources` | [![Luck](https://modfolio.creeperkatze.de/spigot/author/100356/resources)](https://www.spigotmc.org/members/Luck.100356/) |
+| Rating | `/spigot/author/<id>/rating` | [![Luck](https://modfolio.creeperkatze.de/spigot/author/100356/rating)](https://www.spigotmc.org/members/Luck.100356/) |
 
 #### Badge Options
 

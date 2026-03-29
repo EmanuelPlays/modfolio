@@ -8,6 +8,7 @@ import {
     generateProfileImage,
     generateStatsGrid,
     generateDivider,
+    generateSummary,
     generateProjectList,
     generateInfo,
     generateAttribution,
@@ -22,6 +23,7 @@ export function generateOrganizationCard(data, options, platformConfig)
         maxProjects = CARD_LIMITS.DEFAULT_COUNT,
         showSparklines = true,
         showDownloadBars = true,
+        showSummary = false,
         color = null,
         backgroundColor = null,
         fromCache = false,
@@ -38,7 +40,13 @@ export function generateOrganizationCard(data, options, platformConfig)
     const projectsToUse = stats.topProjects || projects;
     const topProjects = showProjects ? projectsToUse.slice(0, maxProjects) : [];
     const hasProjects = showProjects && topProjects.length > 0;
-    const height = hasProjects ? 150 + (topProjects.length * 50) : 130;
+
+    // Calculate summary
+    const summaryText = organization.description;
+    const { svg: summarySvg, height: summaryHeight } = generateSummary(summaryText, colors, animations);
+    const summaryOffset = showSummary && summaryHeight > 0 ? summaryHeight : 0;
+
+    const height = hasProjects ? 150 + (topProjects.length * 50) + summaryOffset : (summaryOffset > 0 ? 130 + summaryOffset : 130);
 
     // Map projects to standard format for display
     const mappedProjects = topProjects.map(project => ({
@@ -78,7 +86,8 @@ ${generateHeader("organization", "building", title, colors, platformConfig.icon(
 ${generateProfileImage(organization.icon_url_base64 || organization.avatarUrl || null, "profile-clip", 400, 60, 35, colors, animations)}
 ${generateStatsGrid(statsData, colors, animations)}
 ${generateDivider(colors, animations)}
-${generateProjectList(mappedProjects, platformConfig.labels.sections.topProjects, colors, showSparklines, showDownloadBars, animations)}
+${showSummary ? summarySvg : ""}
+${generateProjectList(mappedProjects, platformConfig.labels.sections.topProjects, colors, showSparklines, showDownloadBars, animations, summaryOffset)}
 ${generateInfo(height, colors, fromCache, animations, bottomDelay)}
 ${generateAttribution(height, colors, animations, bottomDelay)}
 `;
